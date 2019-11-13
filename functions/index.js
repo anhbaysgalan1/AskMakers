@@ -6,6 +6,15 @@ const Router = require('koa-router')
 const router = new Router()
 const admin = require('firebase-admin')
 const axios = require('axios')
+const { Nuxt } = require('nuxt')
+const config = {
+  dev: false,
+  buildDir: 'nuxt',
+  build: {
+    publicPath: '/'
+  }
+}
+const nuxt = new Nuxt(config)
 
 // Mailgun
 const mailgun = require('mailgun-js')
@@ -156,6 +165,76 @@ const getSampleProfileHtml = (data) => {
   `
   return html
 }
+
+/**
+ * ユーザーページ
+ */
+router.get('/u/:username', async (ctx) => {
+  const req = ctx.req
+  const username = ctx.params.username
+  const result = await nuxt.renderRoute(`/u/${username}`, { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+router.get('/u/settings', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/u/settings', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+/**
+ * 質問ページ
+ */
+router.get('/q/:slug', async (ctx) => {
+  const req = ctx.req
+  const slug = ctx.params.slug
+  const result = await nuxt.renderRoute(`/q/${slug}`, { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+/**
+ * 解答ページ
+ */
+router.get('/all-answers', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/all-answers', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+/**
+ * 固定ページ
+ */
+router.get('/', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+router.get('/about', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/about', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+
+router.get('/post-question', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/post-question', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
 
 router.get('/sp/:id', async (ctx) => {
   // ユーザーデータ取得

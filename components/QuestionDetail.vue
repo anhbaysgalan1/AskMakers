@@ -140,7 +140,7 @@ export default {
     }
     return true
   },
-  async created() {
+  async mounted() {
     const slug = this.$route.params.id
     this.qId = slug
     // 質問データ習得

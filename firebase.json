@@ -9,7 +9,7 @@
     ]
   },
   "hosting": {
-    "public": "dist",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -17,24 +17,8 @@
     ],
     "rewrites": [
       {
-        "source": "/s/**",
-        "function": "func"
-      },
-      {
-        "source": "/sa/**",
-        "function": "func"
-      },
-      {
-        "source": "/sp/**",
-        "function": "func"
-      },
-      {
-        "source": "/sp-sample/**",
-        "function": "func"
-      },
-      {
         "source": "**",
-        "destination": "/index.html"
+        "function": "func"
       }
     ]
   },

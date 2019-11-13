@@ -38,7 +38,6 @@
       </div>
       <div id="nabvar-top" class="navbar-menu">
         <div class="navbar-end">
-          <!-- <div class="navbar-item"> -->
           <a
             class="weight-800 navbar-item"
             @click.prevent="goToPostQuestionPage"
@@ -50,9 +49,11 @@
               Post a question
             </span>
           </a>
-          <!-- </div> -->
+          <div v-if="isLoading" class="navbar-item">
+            Loading…
+          </div>
           <div
-            v-if="$store.getters.getLoginStatus === true"
+            v-if="$store.getters.getLoginStatus === true && !isLoading"
             class="navbar-item has-dropdown is-hoverable"
           >
             <a class="navbar-link">
@@ -93,7 +94,10 @@
               </a>
             </div>
           </div>
-          <div v-else class="navbar-item">
+          <div
+            v-if="$store.getters.getLoginStatus === false && !isLoading"
+            class="navbar-item"
+          >
             <a
               class="button is-warning is-rounded weight-800"
               @click.prevent="showModal"
@@ -113,7 +117,7 @@
 </template>
 
 <script>
-import getParam from '~/plugins/getParam'
+import setLoginUser from '~/plugins/setLoginUser'
 import firebase from '~/plugins/firebase'
 const twitterProvider = new firebase.auth.TwitterAuthProvider()
 
@@ -122,14 +126,13 @@ export default {
   data() {
     return {
       isModalActive: false,
-      modalWidth: '500px'
+      modalWidth: '500px',
+      isLoading: true
     }
   },
-  mounted() {
-    const presignup = getParam('presignup')
-    if (presignup === 'true') {
-      this.isCommingSoon = false
-    }
+  async mounted() {
+    await setLoginUser(this.$store, this.$redirect)
+    this.isLoading = false
   },
   methods: {
     showModal() {

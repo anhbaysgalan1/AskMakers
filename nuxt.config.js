@@ -4,7 +4,7 @@ const description =
   "The best place to ask experienced and successful makers questions anonymously. Let's get together Indie Makers!"
 
 export default {
-  mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -111,7 +111,11 @@ export default {
   /*
    ** Build configuration
    */
+  // buildDir: './functions/nuxt',
   build: {
+    // publicPath: '/',
+    vendor: ['~/plugins/firebase'],
+    extraCSS: true,
     /*
      ** You can extend webpack config here
      */

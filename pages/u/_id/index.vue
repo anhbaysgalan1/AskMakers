@@ -242,10 +242,7 @@
           </div>
           <div class="is-divider"></div>
         </div>
-        <p
-          v-show="$store.getters.getLoginStatus === false"
-          class="login-message"
-        >
+        <p v-if="$store.getters.getLoginStatus === false" class="login-message">
           <login-modal-no-button text="to ask a question." />
         </p>
         <div class="tabs">
@@ -268,7 +265,9 @@
           </ul>
         </div>
         <div id="contaniner-wrapper">
-          <component :is="component" :user="user" />
+          <client-only placeholder="Loading...">
+            <component :is="component" :user="user" />
+          </client-only>
         </div>
       </div>
     </div>
@@ -417,7 +416,7 @@ export default {
     const user = userInfo.docs[0].data()
     return { user }
   },
-  created() {
+  mounted() {
     this.component = UserQuestions
     this.isLoading = false
   },
