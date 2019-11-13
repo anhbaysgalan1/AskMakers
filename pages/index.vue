@@ -1,9 +1,6 @@
 <template>
   <div id="index">
-    <section
-      v-show="$store.getters.getLoginStatus !== true"
-      class="hero is-success has-text-centered"
-    >
+    <section v-if="isLogin !== true" class="hero is-success has-text-centered">
       <div class="hero-body">
         <div class="container">
           <h1 class="title weight-800">
@@ -100,6 +97,7 @@
 </template>
 
 <script>
+import setLoginUser from '~/plugins/setLoginUser'
 import Users from '~/components/Users'
 import Card from '~/components/Card'
 import QuestionsForMeCard from '~/components/QuestionsForMeCard'
@@ -119,14 +117,16 @@ export default {
   },
   data() {
     return {
-      isCommingSoon: false
+      isLogin: true
     }
   },
-  mounted() {
+  async mounted() {
     const presignup = getParam('presignup')
     if (presignup === 'true') {
       this.isCommingSoon = false
     }
+    await setLoginUser(this.$store, this.$redirect)
+    this.isLogin = this.$store.getters.getLoginStatus
   }
 }
 </script>

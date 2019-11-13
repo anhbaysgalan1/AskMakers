@@ -201,6 +201,14 @@ router.get('/q/:slug', async (ctx) => {
 /**
  * 解答ページ
  */
+router.get('/a/:id', async (ctx) => {
+  const req = ctx.req
+  const id = ctx.params.id
+  const result = await nuxt.renderRoute(`/a/${id}`, { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
 router.get('/all-answers', async (ctx) => {
   const req = ctx.req
   const result = await nuxt.renderRoute('/all-answers', { req })
@@ -219,7 +227,6 @@ router.get('/', async (ctx) => {
   ctx.response.status = 200
   ctx.body = result.html
 })
-
 router.get('/about', async (ctx) => {
   const req = ctx.req
   const result = await nuxt.renderRoute('/about', { req })
@@ -227,10 +234,16 @@ router.get('/about', async (ctx) => {
   ctx.response.status = 200
   ctx.body = result.html
 })
-
 router.get('/post-question', async (ctx) => {
   const req = ctx.req
   const result = await nuxt.renderRoute('/post-question', { req })
+  ctx.res.set('cache-control', 'public, max-age=3600')
+  ctx.response.status = 200
+  ctx.body = result.html
+})
+router.get('/terms-privacy', async (ctx) => {
+  const req = ctx.req
+  const result = await nuxt.renderRoute('/terms-privacy', { req })
   ctx.res.set('cache-control', 'public, max-age=3600')
   ctx.response.status = 200
   ctx.body = result.html

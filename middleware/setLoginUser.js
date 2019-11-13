@@ -11,11 +11,8 @@ import 'firebase/firestore'
 const firestore = firebase.firestore()
 
 export default async ({ store, redirect }) => {
-  console.log(`process.client: ${process.client}`)
   if (process.client) {
-    console.log('hey')
     const authUser = await auth()
-    console.log({ authUser })
     if (authUser === false) return
 
     /**

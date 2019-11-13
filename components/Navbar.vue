@@ -50,10 +50,12 @@
             </span>
           </a>
           <div v-if="isLoading" class="navbar-item">
-            Loading…
+            <span class="icon is-medium">
+              <i class="fas fa-spinner fa-lg fa-spin"></i>
+            </span>
           </div>
           <div
-            v-if="$store.getters.getLoginStatus === true && !isLoading"
+            v-if="isLogin && !isLoading"
             class="navbar-item has-dropdown is-hoverable"
           >
             <a class="navbar-link">
@@ -94,10 +96,7 @@
               </a>
             </div>
           </div>
-          <div
-            v-if="$store.getters.getLoginStatus === false && !isLoading"
-            class="navbar-item"
-          >
+          <div v-if="isLogin === false && !isLoading" class="navbar-item">
             <a
               class="button is-warning is-rounded weight-800"
               @click.prevent="showModal"
@@ -127,12 +126,14 @@ export default {
     return {
       isModalActive: false,
       modalWidth: '500px',
-      isLoading: true
+      isLoading: true,
+      isLogin: false
     }
   },
   async mounted() {
     await setLoginUser(this.$store, this.$redirect)
     this.isLoading = false
+    this.isLogin = this.$store.getters.getLoginStatus
   },
   methods: {
     showModal() {
@@ -159,6 +160,7 @@ export default {
       this.$store.commit('changeLoginStatus', {
         status: false
       })
+      this.isLogin = this.$store.getters.getLoginStatus
       this.$router.push('/')
     },
     toggleBurger() {

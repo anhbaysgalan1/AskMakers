@@ -47,7 +47,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: `${url}/ogimage.png`
+        content: `${url}/img/ogimage.png`
       },
       {
         hid: 'twitter:card',
@@ -60,7 +60,14 @@ export default {
         content: '@taishikat0'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Poppins:400,600,700,900&display=swap'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -88,7 +95,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  devModules: [
+  buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
   ],
@@ -111,9 +118,9 @@ export default {
   /*
    ** Build configuration
    */
-  // buildDir: './functions/nuxt',
+  buildDir: './functions/nuxt',
   build: {
-    // publicPath: '/',
+    publicPath: '/',
     vendor: ['~/plugins/firebase'],
     extraCSS: true,
     /*
